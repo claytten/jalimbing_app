@@ -24,10 +24,15 @@
           <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" src="{{ asset('img/default/team-4.jpg') }}">
+                <img class="user-avatar rounded-circle mr-2" 
+                    src="{{ 
+                        !empty(auth()->guard('employee')->user()->image)
+                            ? url('/storage'.'/'.auth()->guard('employee')->user()->image)
+                                : asset('img/default/team-4.jpg')
+                    }}" alt="User Avatar" height="40" width="40">
               </span>
               <div class="media-body ml-2 d-none d-lg-block">
-                <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+                <span class="mb-0 text-sm  font-weight-bold">{{ auth()->guard('employee')->user()->name}}</span>
               </div>
             </div>
           </a>
