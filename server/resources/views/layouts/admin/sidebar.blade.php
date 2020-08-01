@@ -44,7 +44,7 @@
                   
                   @if(Auth::guard('employee')->user()->can('roles-list'))
                     <li class="nav-item {{ !empty($submenu) ? ($submenu == 'roles' ? 'show' : '') : '' }}">
-                      <a href="../../pages/dashboards/alternative.html" class="nav-link">Role</a>
+                      <a href="{{ route('admin.role.index') }}" class="nav-link">Role</a>
                     </li>
                   @endif
                 </ul>

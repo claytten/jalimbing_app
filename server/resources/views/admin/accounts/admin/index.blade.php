@@ -3,7 +3,7 @@
   'menu' => 'accounts',
   'title' => 'Admin',
   'first_title' => 'Admin',
-  'first_link' => route('admin.dashboard')
+  'first_link' => route('admin.admin.index')
 ])
 
 @section('content_alert')
@@ -27,9 +27,11 @@
 @endsection
 
 @section('header-right')
-<div class="col-lg-6 col-5 text-right">
-  <a href="{{ route('admin.admin.create') }}" class="btn btn-sm btn-neutral">New</a>
-</div>
+@if(Auth::guard('employee')->user()->can('admin-create'))
+  <div class="col-lg-6 col-5 text-right">
+    <a href="{{ route('admin.admin.create') }}" class="btn btn-sm btn-neutral">New</a>
+  </div>
+@endif
 @endsection
 
 @section('content_body')

@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 
         Route::namespace('Accounts')->group(function () {
             Route::resource('/account/admin', 'AdminController', ['except' => ['show'] ] );
+            Route::resource('/account/role', 'RoleController');
             
             Route::get('/account/{id}', 'AdminController@editAccount')->name('edit.account');
             Route::put('/account/{id}/edit', 'AdminController@updateAccount')->name('update.account');

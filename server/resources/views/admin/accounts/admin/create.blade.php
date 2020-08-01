@@ -3,7 +3,7 @@
   'menu' => 'accounts',
   'title' => 'Admin',
   'first_title' => 'Admin',
-  'first_link' => route('admin.dashboard'),
+  'first_link' => route('admin.admin.index'),
   'second_title' => 'Create'
 ])
 
@@ -25,10 +25,6 @@
 <link rel="stylesheet" href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
 @endsection
 
-@section('header-right')
-
-  
-@endsection
 
 @section('content_body')
 <form action="{{ route('admin.admin.store') }}" method="POST" enctype="multipart/form-data">
@@ -44,7 +40,10 @@
               <div class="col-8">
                 <h3 class="mb-0">Employee Information</h3>
               </div>
-              <div class="col-lg-4 text-right">
+              <div class="col-lg-2 text-right">
+                <button type="button" class="btn btn-danger" id="btn-reset">Reset</button>
+              </div>
+              <div class="col-lg-2 text-right">
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
@@ -59,7 +58,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                       </div>
-                      <input class="form-control @error('name') is-invalid @enderror" placeholder="Your name" type="text" name="name" value="{{ old('name') }}">
+                      <input class="form-control @error('name') is-invalid @enderror" placeholder="Your name" type="text" name="name" value="{{ old('name') }}" id="name">
                       @error('name')
                           <div class="invalid-feedback">
                               {{ $message }}
@@ -74,7 +73,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                       </div>
-                      <input class="form-control @error('email') is-invalid @enderror" placeholder="Email address" type="email" name="email" value="{{ old('email')}}">
+                      <input class="form-control @error('email') is-invalid @enderror" placeholder="Email address" type="email" name="email" value="{{ old('email')}}" id="email">
                       @error('email')
                           <div class="invalid-feedback">
                               {{ $message }}
@@ -88,7 +87,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <div class="input-group input-group-merge">
-                      <input class="form-control @error('password') is-invalid @enderror" placeholder="Password" type="password" name="password">
+                      <input class="form-control @error('password') is-invalid @enderror" placeholder="Password" type="password" name="password" id="password">
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="fas fa-eye"></i></span>
                       </div>
@@ -103,7 +102,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <div class="input-group input-group-merge">
-                      <input class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Re-type Password" type="password" name="password_confirmation">
+                      <input class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Re-type Password" type="password" name="password_confirmation" id="password_confirmation">
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="fas fa-eye"></i></span>
                       </div>
@@ -228,6 +227,13 @@
         $(preview_button).prop('disabled', true);
         $(preview_form).val('');
     }
+  $("#btn-reset").click(function(e){
+    e.preventDefault();
+    $("#name").val('');
+    $('#email').val('');
+    $('#password').val('');
+    $('#password_confirmation').val('');
+  });
 </script>
     
 @endsection
