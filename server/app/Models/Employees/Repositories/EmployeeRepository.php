@@ -78,10 +78,6 @@ class EmployeeRepository implements EmployeeRepositoryInterface
      */
     public function updateEmployee(array $params): bool
     {
-        if (isset($params['password'])) {
-            $params['password'] = Hash::make($params['password']);
-        }
-
         $filtered = collect($params)->all();
 
         return $this->model->update($filtered);

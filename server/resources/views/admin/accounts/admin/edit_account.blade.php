@@ -4,6 +4,7 @@
 ])
 
 @section('content_alert')
+<div class="alert-result">
   @if(Session::get('message'))
     <div class="alert alert-{{ Session::get('status') }} alert-dismissible fade show" style="z-index: 1000; margin-bottom:0" role="alert">
       <span class="alert-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
@@ -13,6 +14,7 @@
       </button>
     </div>
   @endif
+</div>
 @endsection
 
 @section('headers')
@@ -131,13 +133,23 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="input-username">Name</label>
-                  <input type="text" id="input-username" class="form-control" placeholder="Name" value="{{ $employee->name }}" name="name">
+                  <input type="text" id="input-username" class="form-control @error('name') is-invalid @enderror"" placeholder="Name" value="{{ $employee->name }}" name="name">
+                  @error('name')
+                      <div class="invalid-feedback">
+                          {{ $message }}
+                      </div>
+                  @enderror
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="input-email">Email address</label>
-                  <input type="email" id="input-email" class="form-control" placeholder="Email" name="email" value="{{ $employee->email }}">
+                  <input type="email" id="input-email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ $employee->email }}">
+                  @error('email')
+                      <div class="invalid-feedback">
+                          {{ $message }}
+                      </div>
+                  @enderror
                 </div>
               </div>
             </div>
@@ -169,19 +181,34 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="input-username">Old Password</label>
-                  <input type="password" id="input-username" class="form-control" placeholder="Old Password" name="oldpassword">
+                  <input type="password" id="input-username" class="form-control @error('oldpassword') is-invalid @enderror" placeholder="Old Password" name="oldpassword">
+                  @error('oldpassword')
+                      <div class="invalid-feedback">
+                          {{ $message }}
+                      </div>
+                  @enderror
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="input-username">New Password</label>
-                  <input type="password" id="input-username" class="form-control" placeholder="New Password" name="password">
+                  <input type="password" id="input-username" class="form-control @error('password') is-invalid @enderror" placeholder="New Password" name="password">
+                  @error('password')
+                      <div class="invalid-feedback">
+                          {{ $message }}
+                      </div>
+                  @enderror
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="input-email">Confirmation New Password</label>
-                  <input type="password" id="input-email" class="form-control" placeholder="Confirmation New Password" name="password_confirmation">
+                  <input type="password" id="input-email" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Confirmation New Password" name="password_confirmation">
+                  @error('password_confirmation')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                  @enderror
                 </div>
               </div>
             </div>
@@ -197,8 +224,6 @@
 
 @section('plugins_js')
 <script src="{{ asset('vendor/select2/dist/js/select2.min.js')}}"></script>
-<script src="{{ asset('vendor/dropzone/dist/min/dropzone.min.js')}}"></script>
-<script src="{{ asset('vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
 @endsection
 
 @section('inline_js')

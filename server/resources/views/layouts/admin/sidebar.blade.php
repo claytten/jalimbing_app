@@ -38,7 +38,7 @@
                 <ul class="nav nav-sm flex-column">
                   @if(Auth::guard('employee')->user()->can('admin-list'))
                     <li class="nav-item {{ !empty($submenu) ? ($submenu == 'admins' ? 'show' : '') : '' }}">
-                      <a href="../../pages/dashboards/dashboard.html" class="nav-link">Admin</a>
+                      <a href="{{ route('admin.admin.index')}}" class="nav-link">Admin</a>
                     </li>
                   @endif
                   

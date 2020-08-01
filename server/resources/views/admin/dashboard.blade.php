@@ -7,6 +7,7 @@
 ])
 
 @section('content_alert')
+<div class="alert-result">
   @if(Session::get('message'))
     <div class="alert alert-{{ Session::get('status') }} alert-dismissible fade show" style="z-index: 1000; margin-bottom: 0" role="alert">
       <span class="alert-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
@@ -16,6 +17,7 @@
       </button>
     </div>
   @endif
+</div>
 @endsection
 
 @section('content_body')

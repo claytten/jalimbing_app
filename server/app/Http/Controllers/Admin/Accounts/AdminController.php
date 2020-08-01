@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Accounts;
 
 use App\Models\Employees\Requests\CreateEmployeeRequest;
 use App\Models\Employees\Requests\UpdateEmployeeRequest;
+use App\Http\Middleware\CustomRoleSpatie;
 use App\Models\Employees\Repositories\EmployeeRepository;
 use App\Models\Employees\Repositories\Interfaces\EmployeeRepositoryInterface;
 
@@ -58,7 +59,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        
+        $roles = CustomRoleSpatie::pluck('name', 'name')->all();
+        return view('admin.accounts.admin.create', compact('roles'));
     }
 
     /**
@@ -73,6 +75,11 @@ class AdminController extends Controller
 
         if ($request->hasFile('image') && $request->file('image') instanceof UploadedFile) {
             $data['image'] = $this->employeeRepo->saveCoverImage($request->file('image'));
+        }
+        if($request->is_active == "on") {
+            $data['is_active'] = 1;
+        } else {
+            $data['is_active'] = 0;
         }
         $this->employeeRepo->createEmployee($data);
 
@@ -91,7 +98,10 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        
+        $roles = CustomRoleSpatie::pluck('name', 'name')->all();
+        $employee = $this->employeeRepo->findEmployeeById($id);
+
+        return view('admin.accounts.admin.edit',compact('employee','roles'));
     }
 
     /**
@@ -105,31 +115,35 @@ class AdminController extends Controller
     {
         $data = $request->except('_token','_method');
         $employee = $this->employeeRepo->findEmployeeById($id);
+        $request->validate([
+            'name' => ['required', 'string', 'max:191'],
+            'email' => ['required', 'email', 'max:191', 'unique:employees,email,'.$id],
+            'role' => ['required']
+        ]);
 
-        if($request->newPassword === "changePassword") {
-            
+        if(!empty($request->password) && !empty($request->password_confirmation)) {
             $request->validate([
                 'password' => ['required', 'string', 'min:5', 'confirmed']
             ]);
-            
-            $employee->password = Hash::make($request->password);
-            $employee->save();
+            $data['password'] = Hash::make($request->password);
         } else {
-            $request->validate([
-                'name' => ['required', 'string', 'max:191'],
-                'email' => ['required', 'email', 'max:191', 'unique:employees,email,'.$id],
-                'role' => ['required']
-            ]);
-            $employeeRepo = new EmployeeRepository($employee);
-            if ($request->hasFile('image') && $request->file('image') instanceof UploadedFile) {
-                if(!empty($employee->image)) {
-                    $employeeRepo->deleteFile($employee->image);
-                }
-                $data['image'] = $this->employeeRepo->saveCoverImage($request->file('image'));
-            }
-            $employeeRepo->updateEmployee($data);
-            
+            $data['password'] = $employee->password;
         }
+
+        if($request->is_active == "on") {
+            $data['is_active'] = 1;
+        } else {
+            $data['is_active'] = 0;
+        }
+        $employeeRepo = new EmployeeRepository($employee);
+        if ($request->hasFile('image') && $request->file('image') instanceof UploadedFile) {
+            if(!empty($employee->image)) {
+                $employeeRepo->deleteFile($employee->image);
+            }
+            $data['image'] = $this->employeeRepo->saveCoverImage($request->file('image'));
+        }
+        $employeeRepo->updateEmployee($data);
+
         return redirect()->route('admin.admin.edit', $id)->with([
             'status'    => 'success',
             'message'   => 'Update Account successful!'
@@ -206,7 +220,9 @@ class AdminController extends Controller
             $employeeRepo->updateEmployee($data);
         } else if($request->statStages === 'password') {
             $request->validate([
-                'password' => ['required', 'string', 'min:5', 'confirmed']
+                'oldpassword' => ['required'],
+                'password' => ['required', 'string', 'min:5', 'confirmed'],
+                'password_confirmation' => ['required']
             ]);
             $getOldPassword = Hash::check($request->oldpassword, $employee->password);
 
@@ -226,8 +242,14 @@ class AdminController extends Controller
                     $employeeRepo->deleteFile($employee->image);
                 }
                 $data['image'] = $this->employeeRepo->saveCoverImage($request->file('image'));
+                $employeeRepo->updateEmployee($data);
+            } else {
+                return redirect()->route('admin.edit.account', $id)->with([
+                    'status'    => 'danger',
+                    'message'   => "You can't Update Blank Photo"
+                ]);
             }
-            $employeeRepo->updateEmployee($data);
+            
         }
 
         return redirect()->route('admin.dashboard')->with([

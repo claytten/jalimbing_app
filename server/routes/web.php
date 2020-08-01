@@ -28,6 +28,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
         Route::get('/', 'DashboardController@index')->name('dashboard');
 
         Route::namespace('Accounts')->group(function () {
+            Route::resource('/account/admin', 'AdminController', ['except' => ['show'] ] );
+            
             Route::get('/account/{id}', 'AdminController@editAccount')->name('edit.account');
             Route::put('/account/{id}/edit', 'AdminController@updateAccount')->name('update.account');
         });
