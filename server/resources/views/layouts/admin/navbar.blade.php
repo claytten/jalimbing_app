@@ -24,7 +24,7 @@
           <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img class="user-avatar rounded-circle mr-2" 
+                <img class="user-avatar rounded-circle mr-1" 
                     src="{{ 
                         !empty(auth()->guard('employee')->user()->image)
                             ? url('/storage'.'/'.auth()->guard('employee')->user()->image)

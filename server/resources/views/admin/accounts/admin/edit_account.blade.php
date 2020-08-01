@@ -1,14 +1,11 @@
 @extends('layouts.admin.app',[
   'headers' => 'non-active',
   'menu' => 'accounts',
-  'title' => 'Admin',
-  'first_title' => 'Admin',
-  'first_link' => route('admin.dashboard')
 ])
 
 @section('content_alert')
   @if(Session::get('message'))
-    <div class="alert alert-{{ Session::get('status') }} alert-dismissible fade show" role="alert">
+    <div class="alert alert-{{ Session::get('status') }} alert-dismissible fade show" style="z-index: 1000; margin-bottom:0" role="alert">
       <span class="alert-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
       <span class="alert-text">{{ Session::get('message') }}</span>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -19,7 +16,7 @@
 @endsection
 
 @section('headers')
-<div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url({{ asset('img/default/profile-cover.jpg')}}); background-size: cover; background-position: center top;">
+<div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url({{ asset('img/default/img-1-1000x600.jpg')}}); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-default opacity-8"></span>
   <!-- Header container -->
@@ -27,7 +24,6 @@
     <div class="row">
       <div class="col-lg-7 col-md-10">
         <h1 class="display-2 text-white">Hello {{ $employee->name }}</h1>
-        <a href="#!" class="btn btn-neutral">Edit Banner</a>
       </div>
     </div>
   </div>
@@ -40,7 +36,7 @@
 
 @section('content_body')
 <div class="row">
-  <div class="col-xl-4 order-xl-2">
+  <div class="col-xl-4 order-xl-2 images-content">
     <div class="card card-profile">
       <img src="{{ asset('img/default/img-1-1000x600.jpg') }}" alt="Image placeholder" class="card-img-top">
       <div class="row justify-content-center">
@@ -68,9 +64,12 @@
       </div>
       <br>
     </div>
-    <!-- Progress track -->
+    <!-- Upload Photo -->
     <div class="card">
-      <form action="">
+      <form action="{{ route('admin.update.account', $employee->id )}}" method="POST" enctype="multipart/form-data" id="dropzone-form">
+        {{ csrf_field() }}
+        <input type="hidden" name="_method" value="PUT" readonly>
+        <input type="hidden" name="statStages" value="photo" readonly>
         <!-- Card header -->
         <div class="card-header">
           <!-- Title -->
@@ -86,27 +85,35 @@
         <!-- Card body -->
         <div class="card-body">
           <!-- Single -->
-          <div class="dropzone dropzone-single mb-3" data-toggle="dropzone" data-dropzone-url="http://">
+          <div class="mb-3">
             <div class="fallback">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="projectCoverUploads">
+                <input type="file" accept=".jpg, .jpeg, .png" name="image" class="form-control imgs" onchange="previewImage(this)"id="projectCoverUploads">
                 <label class="custom-file-label" for="projectCoverUploads">Choose file</label>
-              </div>
-            </div>
-            <div class="dz-preview dz-preview-single">
-              <div class="dz-preview-cover">
-                <img class="dz-preview-img" src="..." alt="..." data-dz-thumbnail>
               </div>
             </div>
           </div>
         </div>
       </form>
     </div>
+    <div class="card" style="align-items: center">
+        <!-- Card body -->
+        <div class="card-body">
+          <!-- Single -->
+          <div class="col-12 col-md-12 ">
+            <button type="button" class="btn btn-sm btn-danger d-block mb-2 mx-auto remove_preview text-center" onclick="resetPreview(this)" disabled>Reset Preview</button>
+            <img class="img-responsive" width="200px;" style="padding:.25rem;background:#eee;display:block;">
+          </div>
+        </div>
+    </div>
   </div>
   <div class="col-xl-8 order-xl-1">
     <div class="card">
       {{-- Edit Profile --}}
-      <form action="">
+      <form action="{{ route('admin.update.account', $employee->id )}}" method="POST">
+        {{ csrf_field() }}
+        <input type="hidden" name="_method" value="PUT" readonly>
+        <input type="hidden" name="statStages" value="user" readonly>
         <div class="card-header">
           <div class="row align-items-center">
             <div class="col-8">
@@ -140,7 +147,11 @@
       </form>
 
       {{-- Edit Password --}}
-      <form action="">
+      <form action="{{ route('admin.update.account', $employee->id )}}" method="POST">
+        {{ csrf_field() }}
+        <input type="hidden" name="_method" value="PUT" readonly>
+        <input type="hidden" name="statStages" value="password" readonly>
+
         <div class="card-header">
           <div class="row align-items-center">
             <div class="col-8">
@@ -157,8 +168,14 @@
             <div class="row">
               <div class="col-lg-6">
                 <div class="form-group">
+                  <label class="form-control-label" for="input-username">Old Password</label>
+                  <input type="password" id="input-username" class="form-control" placeholder="Old Password" name="oldpassword">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
                   <label class="form-control-label" for="input-username">New Password</label>
-                  <input type="password" id="input-username" class="form-control" placeholder="Password" name="password">
+                  <input type="password" id="input-username" class="form-control" placeholder="New Password" name="password">
                 </div>
               </div>
               <div class="col-lg-6">
@@ -182,4 +199,41 @@
 <script src="{{ asset('vendor/select2/dist/js/select2.min.js')}}"></script>
 <script src="{{ asset('vendor/dropzone/dist/min/dropzone.min.js')}}"></script>
 <script src="{{ asset('vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
+@endsection
+
+@section('inline_js')
+<script>
+  "use strict"
+  // Add More Image
+  function previewImage(input){
+        console.log("Preview Image");
+        let preview_image = $(input).closest('.images-content').find('.img-responsive');
+        let preview_button = $(input).closest('.images-content').find('.remove_preview');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // console.log(e.target.result);
+                $(preview_image).attr('src', e.target.result);
+                
+            }
+            $('.custom-file-label').html(input.files[0].name);
+            reader.readAsDataURL(input.files[0]);
+            $(preview_button).prop('disabled', false);
+        }
+    }
+
+    function resetPreview(input){
+
+        let preview_image = $(input).closest('.images-content').find('.img-responsive');
+        let preview_button = $(input).closest('.images-content').find('.remove_preview');
+        let preview_form = $(input).closest('.images-content').find('.imgs');
+
+        $('.custom-file-label').html('Choose File');
+        $(preview_image).attr('src', '');
+        $(preview_button).prop('disabled', true);
+        $(preview_form).val('');
+    }
+</script>
+    
 @endsection

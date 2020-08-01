@@ -84,7 +84,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
         $filtered = collect($params)->all();
 
-        return $this->update($filtered);
+        return $this->model->update($filtered);
     }
 
     /**
@@ -133,7 +133,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
      */
     public function deleteEmployee() : bool
     {
-        return $this->delete();
+        return $this->model->delete();
     }
 
     /**

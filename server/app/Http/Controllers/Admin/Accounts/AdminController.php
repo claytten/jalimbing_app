@@ -195,8 +195,16 @@ class AdminController extends Controller
     {
         $data = $request->except('_token','_method');
         $employee = $this->employeeRepo->findEmployeeById($id);
+        $employeeRepo = new EmployeeRepository($employee);
 
-        if($request->newPassword === "changePassword") {
+        if($request->statStages === 'user') {
+            $request->validate([
+                'name' => ['required', 'string', 'max:191'],
+                'email' => ['required', 'email', 'max:191', 'unique:employees,email,'.$id]
+            ]);
+
+            $employeeRepo->updateEmployee($data);
+        } else if($request->statStages === 'password') {
             $request->validate([
                 'password' => ['required', 'string', 'min:5', 'confirmed']
             ]);
@@ -212,37 +220,19 @@ class AdminController extends Controller
                     'message'   => "Your Password old password or new password something wrong"
                 ]);
             }
-            
-            
         } else {
-            $request->validate([
-                'name' => ['required', 'string', 'max:191'],
-                'email' => ['required', 'email', 'max:191', 'unique:employees,email,'.$id]
-            ]);
-            $getCheckPass = Hash::check($request->confirm_password, $employee->password);
-
-            if($getCheckPass) {
-                $employeeRepo = new EmployeeRepository($employee);
-                if ($request->hasFile('image') && $request->file('image') instanceof UploadedFile) {
-                    if(!empty($employee->image)) {
-                        $employeeRepo->deleteFile($employee->image);
-                    }
-                    $data['image'] = $this->employeeRepo->saveCoverImage($request->file('image'));
+            if ($request->hasFile('image') && $request->file('image') instanceof UploadedFile) {
+                if(!empty($employee->image)) {
+                    $employeeRepo->deleteFile($employee->image);
                 }
-                $employeeRepo->updateEmployee($data);
-            } else {
-                return redirect()->route('admin.edit.account', $id)->with([
-                    'status'    => 'danger',
-                    'message'   => "Your Password Doesn't Match"
-                ]);
+                $data['image'] = $this->employeeRepo->saveCoverImage($request->file('image'));
             }
-            
+            $employeeRepo->updateEmployee($data);
         }
+
         return redirect()->route('admin.dashboard')->with([
             'status'    => 'success',
             'message'   => 'Update Account successful!'
         ]);
-        
-        
     }
 }
