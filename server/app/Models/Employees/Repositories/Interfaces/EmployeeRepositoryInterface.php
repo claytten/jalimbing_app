@@ -2,12 +2,11 @@
 
 namespace App\Models\Employees\Repositories\Interfaces;
 
-use Jsdecena\Baserepo\BaseRepositoryInterface;
 use App\Models\Employees\Employee;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 
-interface EmployeeRepositoryInterface extends BaseRepositoryInterface
+interface EmployeeRepositoryInterface
 {
     public function listEmployees(): Collection;
 

@@ -1,4 +1,5 @@
 @extends('layouts.admin.app',[
+  'headers' => 'active',
   'menu' => 'dashboard',
   'title' => 'Dashboard',
   'first_title' => 'Dashboard',

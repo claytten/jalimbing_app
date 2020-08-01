@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ (!empty(config('app.name')) ? config('app.name') : 'DarkCrown Dashboard') }}</title>
+    <title>{{ (!empty(config('app.name')) ? config('app.name') : 'Ikada Dashboard') }}</title>
     
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('img/favicon/apple-icon-57x57.png')}}">
@@ -44,38 +44,42 @@
       <!-- Topnav -->
       @include('layouts.admin.navbar')
       <!-- Header -->
-      <div class="header bg-primary pb-6">
-        <div class="container-fluid">
-          <div class="header-body">
-            <div class="row align-items-center py-4">
-                @yield('content_alert')
-                <div class="col-lg-6 col-7">
-                  <h6 class="h2 text-white d-inline-block mb-0">{{ $title }}</h6>
-                  <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-                    <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i></a></li>
-                        @if(!empty($first_title) && !empty($second_title) && !empty($third_title))
-                          <li class="breadcrumb-item"><a href="{{ $first_link }}">{{ $first_title }}</a></li>
-                          <li class="breadcrumb-item"><a href="{{ $second_link }}">{{ $second_title}}</a></li>
-                          <li class="breadcrumb-item active" aria-current="page">{{ $third_title}}</li>
-                        @elseif(!empty($first_title) && !empty($second_title))
-                          <li class="breadcrumb-item"><a href="{{ $first_link }}">{{ $first_title }}</a></li>
-                          <li class="breadcrumb-item active" aria-current="page">{{ $second_title}}</li>
-                        @else
-                          <li class="breadcrumb-item"><a href="{{ $first_link }}">{{ $first_title }}</a></li>
-                        @endif
-                    </ol>
-                  </nav>
-                </div>
-                @if(!empty($link_new))
-                  <div class="col-lg-6 col-5 text-right">
-                    <a href="{{ $link_new }}" class="btn btn-sm btn-neutral">New</a>
+      @if($headers == 'active')
+        <div class="header bg-primary pb-6">
+          <div class="container-fluid">
+            <div class="header-body">
+              <div class="row align-items-center py-4">
+                  @yield('content_alert')
+                  <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">{{ $title }}</h6>
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                      <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                          <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i></a></li>
+                          @if(!empty($first_title) && !empty($second_title) && !empty($third_title))
+                            <li class="breadcrumb-item"><a href="{{ $first_link }}">{{ $first_title }}</a></li>
+                            <li class="breadcrumb-item"><a href="{{ $second_link }}">{{ $second_title}}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $third_title}}</li>
+                          @elseif(!empty($first_title) && !empty($second_title))
+                            <li class="breadcrumb-item"><a href="{{ $first_link }}">{{ $first_title }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $second_title}}</li>
+                          @else
+                            <li class="breadcrumb-item"><a href="{{ $first_link }}">{{ $first_title }}</a></li>
+                          @endif
+                      </ol>
+                    </nav>
                   </div>
-                @endif
+                  @if(!empty($link_new))
+                    <div class="col-lg-6 col-5 text-right">
+                      <a href="{{ $link_new }}" class="btn btn-sm btn-neutral">New</a>
+                    </div>
+                  @endif
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      @else
+        @yield('headers')
+      @endif
      
       <!-- Page content -->
       <div class="container-fluid mt--6">

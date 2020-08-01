@@ -26,6 +26,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 
     Route::namespace('Admin')->group(function () {
         Route::get('/', 'DashboardController@index')->name('dashboard');
+
+        Route::namespace('Accounts')->group(function () {
+            Route::get('/account/{id}', 'AdminController@editAccount')->name('edit.account');
+            Route::put('/account/{id}/edit', 'AdminController@updateAccount')->name('update.account');
+        });
     });
 });
 

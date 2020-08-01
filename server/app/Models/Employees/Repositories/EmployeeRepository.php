@@ -2,7 +2,6 @@
 
 namespace App\Models\Employees\Repositories;
 
-use Jsdecena\Baserepo\BaseRepository;
 use App\Models\Employees\Employee;
 use App\Models\Employees\Exceptions\EmployeeNotFoundException;
 use App\Models\Employees\Repositories\Interfaces\EmployeeRepositoryInterface;
@@ -14,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 
-class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInterface
+class EmployeeRepository implements EmployeeRepositoryInterface
 {
     use UploadableTrait;
     /**
@@ -24,7 +23,6 @@ class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInt
      */
     public function __construct(Employee $employee)
     {
-        parent::__construct($employee);
         $this->model = $employee;
     }
 
@@ -52,7 +50,7 @@ class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInt
     {
         $data['password'] = Hash::make($data['password']);
         $this->model->assignRole($data['role']);
-        return $this->create($data);
+        return $this->model->create($data);
     }
 
     /**
@@ -65,7 +63,7 @@ class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInt
     public function findEmployeeById(int $id): Employee
     {
         try {
-            return $this->findOneOrFail($id);
+            return $this->model->where('id', $id)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             throw new EmployeeNotFoundException;
         }

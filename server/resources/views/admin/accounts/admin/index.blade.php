@@ -1,4 +1,5 @@
 @extends('layouts.admin.app',[
+  'headers' => 'active',
   'menu' => 'accounts',
   'title' => 'Admin',
   'first_title' => 'Admin',
