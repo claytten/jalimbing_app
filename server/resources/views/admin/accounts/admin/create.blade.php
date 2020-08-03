@@ -168,7 +168,7 @@
         <div class="card">
           <!-- Card header -->
           <div class="card-header">
-            <h3 class="mb-0">Status</h3>
+            <h3 class="mb-0">Publish</h3>
           </div>
           <!-- Card body -->
           <div class="card-body">
