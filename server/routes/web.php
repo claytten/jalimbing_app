@@ -27,6 +27,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
     Route::namespace('Admin')->group(function () {
         Route::get('/', 'DashboardController@index')->name('dashboard');
 
+        Route::namespace('Categories')->group(function () {
+            Route::resource('/categories/category', 'CategoryController');
+        });
+
         Route::namespace('Accounts')->group(function () {
             Route::resource('/account/admin', 'AdminController', ['except' => ['show'] ] );
             Route::resource('/account/role', 'RoleController');

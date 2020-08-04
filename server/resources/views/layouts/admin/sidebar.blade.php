@@ -30,11 +30,11 @@
 
           @if(Auth::guard('employee')->user()->can('admin-list') || Auth::guard('employee')->user()->can('roles-list'))
             <li class="nav-item">
-              <a class="nav-link {{ !empty($menu) ? ($menu == "accounts" ? 'active' : '') : '' }}" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+              <a class="nav-link {{ !empty($menu) ? ($menu == "accounts" ? 'active' : '') : '' }}" href="#navbar-accounts" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-accounts">
                 <i class="ni ni-circle-08 text-primary"></i>
                 <span class="nav-link-text">Accounts</span>
               </a>
-              <div class="collapse {{ !empty($menu) ? ($menu == "accounts" ? 'show' : '') : '' }}" id="navbar-dashboards">
+              <div class="collapse {{ !empty($menu) ? ($menu == "accounts" ? 'show' : '') : '' }}" id="navbar-accounts">
                 <ul class="nav nav-sm flex-column">
                   @if(Auth::guard('employee')->user()->can('admin-list'))
                     <li class="nav-item {{ !empty($submenu) ? ($submenu == 'admins' ? 'show' : '') : '' }}">
@@ -50,6 +50,24 @@
                 </ul>
               </div>
             </li>
+          @endif
+
+          @if( Auth::guard('employee')->user()->can('category-list') )
+          <li class="nav-item">
+            <a class="nav-link {{ !empty($menu) ? ($menu == "categories" ? 'active' : '') : '' }}" href="#navbar-categories" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-categories">
+              <i class="ni ni-bullet-list-67 text-primary"></i>
+              <span class="nav-link-text">Category</span>
+            </a>
+            <div class="collapse {{ !empty($menu) ? ($menu == "categories" ? 'show' : '') : '' }}" id="navbar-categories">
+              <ul class="nav nav-sm flex-column">
+                @if(Auth::guard('employee')->user()->can('category-list'))
+                  <li class="nav-item {{ !empty($submenu) ? ($submenu == 'category' ? 'show' : '') : '' }}">
+                    <a href="{{ route('admin.category.index')}}" class="nav-link">Category</a>
+                  </li>
+                @endif
+              </ul>
+            </div>
+          </li>
           @endif
         </ul>
         <!-- Divider -->

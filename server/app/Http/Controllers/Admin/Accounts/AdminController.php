@@ -81,7 +81,8 @@ class AdminController extends Controller
         } else {
             $data['is_active'] = 0;
         }
-        $this->employeeRepo->createEmployee($data);
+        $checking = $this->employeeRepo->createEmployee($data);
+        dd($checking->id);
 
         return redirect()->route('admin.admin.index')->with([
             'status'    => 'success',
