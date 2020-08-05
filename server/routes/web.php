@@ -38,6 +38,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('/account/{id}', 'AdminController@editAccount')->name('edit.account');
             Route::put('/account/{id}/edit', 'AdminController@updateAccount')->name('update.account');
         });
+
+        Route::namespace('Maps')->group(function () {
+            Route::resource('/maps/view', 'MapController',['only' => ['index']]);
+            Route::resource('/maps/api', 'MapApiController',['only' => ['index','store']]);
+        });
     });
 });
 

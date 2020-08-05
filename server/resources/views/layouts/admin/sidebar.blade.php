@@ -69,6 +69,24 @@
             </div>
           </li>
           @endif
+
+          @if( Auth::guard('employee')->user()->can('map-list') )
+          <li class="nav-item">
+            <a class="nav-link {{ !empty($menu) ? ($menu == "maps" ? 'active' : '') : '' }}" href="#navbar-maps" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-categories">
+              <i class="ni ni-map-big text-primary"></i>
+              <span class="nav-link-text">Maps</span>
+            </a>
+            <div class="collapse {{ !empty($menu) ? ($menu == "maps" ? 'show' : '') : '' }}" id="navbar-maps">
+              <ul class="nav nav-sm flex-column">
+                @if(Auth::guard('employee')->user()->can('map-list'))
+                  <li class="nav-item {{ !empty($submenu) ? ($submenu == 'category' ? 'show' : '') : '' }}">
+                    <a href="{{ route('admin.view.index')}}" class="nav-link">Map</a>
+                  </li>
+                @endif
+              </ul>
+            </div>
+          </li>
+          @endif
         </ul>
         <!-- Divider -->
         <hr class="my-3">
