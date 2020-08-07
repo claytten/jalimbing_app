@@ -26,6 +26,23 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 
     Route::namespace('Admin')->group(function () {
         Route::get('/', 'DashboardController@index')->name('dashboard');
+
+        Route::namespace('Categories')->group(function () {
+            Route::resource('/categories/category', 'CategoryController');
+        });
+
+        Route::namespace('Accounts')->group(function () {
+            Route::resource('/account/admin', 'AdminController', ['except' => ['show'] ] );
+            Route::resource('/account/role', 'RoleController');
+            
+            Route::get('/account/{id}', 'AdminController@editAccount')->name('edit.account');
+            Route::put('/account/{id}/edit', 'AdminController@updateAccount')->name('update.account');
+        });
+
+        Route::namespace('Maps')->group(function () {
+            Route::resource('/maps/view', 'MapController',['only' => ['index']]);
+            Route::resource('/maps/api', 'MapApiController',['only' => ['index','store']]);
+        });
     });
 });
 

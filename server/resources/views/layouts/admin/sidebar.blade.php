@@ -30,26 +30,62 @@
 
           @if(Auth::guard('employee')->user()->can('admin-list') || Auth::guard('employee')->user()->can('roles-list'))
             <li class="nav-item">
-              <a class="nav-link {{ !empty($menu) ? ($menu == "accounts" ? 'active' : '') : '' }}" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+              <a class="nav-link {{ !empty($menu) ? ($menu == "accounts" ? 'active' : '') : '' }}" href="#navbar-accounts" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-accounts">
                 <i class="ni ni-circle-08 text-primary"></i>
                 <span class="nav-link-text">Accounts</span>
               </a>
-              <div class="collapse {{ !empty($menu) ? ($menu == "accounts" ? 'show' : '') : '' }}" id="navbar-dashboards">
+              <div class="collapse {{ !empty($menu) ? ($menu == "accounts" ? 'show' : '') : '' }}" id="navbar-accounts">
                 <ul class="nav nav-sm flex-column">
                   @if(Auth::guard('employee')->user()->can('admin-list'))
                     <li class="nav-item {{ !empty($submenu) ? ($submenu == 'admins' ? 'show' : '') : '' }}">
-                      <a href="../../pages/dashboards/dashboard.html" class="nav-link">Admin</a>
+                      <a href="{{ route('admin.admin.index')}}" class="nav-link">Admin</a>
                     </li>
                   @endif
                   
                   @if(Auth::guard('employee')->user()->can('roles-list'))
                     <li class="nav-item {{ !empty($submenu) ? ($submenu == 'roles' ? 'show' : '') : '' }}">
-                      <a href="../../pages/dashboards/alternative.html" class="nav-link">Role</a>
+                      <a href="{{ route('admin.role.index') }}" class="nav-link">Role</a>
                     </li>
                   @endif
                 </ul>
               </div>
             </li>
+          @endif
+
+          @if( Auth::guard('employee')->user()->can('category-list') )
+          <li class="nav-item">
+            <a class="nav-link {{ !empty($menu) ? ($menu == "categories" ? 'active' : '') : '' }}" href="#navbar-categories" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-categories">
+              <i class="ni ni-bullet-list-67 text-primary"></i>
+              <span class="nav-link-text">Category</span>
+            </a>
+            <div class="collapse {{ !empty($menu) ? ($menu == "categories" ? 'show' : '') : '' }}" id="navbar-categories">
+              <ul class="nav nav-sm flex-column">
+                @if(Auth::guard('employee')->user()->can('category-list'))
+                  <li class="nav-item {{ !empty($submenu) ? ($submenu == 'category' ? 'show' : '') : '' }}">
+                    <a href="{{ route('admin.category.index')}}" class="nav-link">Category</a>
+                  </li>
+                @endif
+              </ul>
+            </div>
+          </li>
+          @endif
+
+          @if( Auth::guard('employee')->user()->can('map-list') )
+          <li class="nav-item">
+            <a class="nav-link {{ !empty($menu) ? ($menu == "maps" ? 'active' : '') : '' }}" href="#navbar-maps" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-categories">
+              <i class="ni ni-map-big text-primary"></i>
+              <span class="nav-link-text">Maps</span>
+            </a>
+            <div class="collapse {{ !empty($menu) ? ($menu == "maps" ? 'show' : '') : '' }}" id="navbar-maps">
+              <ul class="nav nav-sm flex-column">
+                @if(Auth::guard('employee')->user()->can('map-list'))
+                  <li class="nav-item {{ !empty($submenu) ? ($submenu == 'category' ? 'show' : '') : '' }}">
+                    <a href="{{ route('admin.view.index')}}" class="nav-link">Map</a>
+                  </li>
+                @endif
+              </ul>
+            </div>
+          </li>
           @endif
         </ul>
         <!-- Divider -->

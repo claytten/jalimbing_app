@@ -1,4 +1,5 @@
 @extends('layouts.admin.app',[
+  'headers' => 'active',
   'menu' => 'dashboard',
   'title' => 'Dashboard',
   'first_title' => 'Dashboard',
@@ -6,8 +7,9 @@
 ])
 
 @section('content_alert')
+<div class="alert-result">
   @if(Session::get('message'))
-    <div class="alert alert-{{ Session::get('status') }} alert-dismissible fade show" role="alert">
+    <div class="alert alert-{{ Session::get('status') }} alert-dismissible fade show" style="z-index: 1000; margin-bottom: 0" role="alert">
       <span class="alert-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
       <span class="alert-text">{{ Session::get('message') }}</span>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -15,6 +17,7 @@
       </button>
     </div>
   @endif
+</div>
 @endsection
 
 @section('content_body')

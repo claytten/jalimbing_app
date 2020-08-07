@@ -2,11 +2,34 @@
 
 namespace App\Http\Controllers\Admin\Accounts;
 
+use App\Http\Middleware\CustomRoleSpatie;
+use Spatie\Permission\Models\Permission;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+
+    /**
+     * Role Controller Constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:roles-list',['only' => ['index']]);
+        $this->middleware('permission:roles-create', ['only' => ['create','store']]);
+        $this->middleware('permission:roles-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:roles-delete', ['only' => ['destroy']]);
+
+        $this->permission_avail = [
+            'admin' => ['list', 'create', 'edit', 'delete'],
+            'roles' => ['list', 'create', 'edit', 'delete'],
+        ];
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +37,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = CustomRoleSpatie::withCount('employees', 'permissions')->get();
+        return view('admin.accounts.role.index',compact('roles'));
     }
 
     /**
@@ -24,7 +48,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $options = $this->permission_avail;
+        return view('admin.accounts.role.create', compact('options'));
     }
 
     /**
@@ -35,7 +60,24 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except('_token','_method');
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:191', 'unique:roles,name']
+        ]);
+        
+        $role = new CustomRoleSpatie;
+        $role->name = $request->name;
+        $role->guard_name = 'employee';
+        $role->save();
+
+        // Assign Permission
+        $role->syncPermissions($data['permissions']);
+
+        return redirect()->route('admin.role.index')->with([
+            'status'    => 'success',
+            'message'   => 'Role permission successfully added'
+        ]);
     }
 
     /**
@@ -46,7 +88,8 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = CustomRoleSpatie::findOrFail($id);
+        return view('admin.accounts.role.show', compact('role'));
     }
 
     /**
@@ -57,7 +100,13 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = CustomRoleSpatie::findOrFail($id);
+        $options = $this->permission_avail;
+        $old_options = Permission::join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+            ->where('role_has_permissions.role_id', $id)
+            ->get()->pluck('name');
+            
+        return view('admin.accounts.role.edit', compact('role', 'options', 'old_options'));
     }
 
     /**
@@ -69,7 +118,36 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:191', 'unique:roles,name,'.$id]
+        ]);
+
+        $role = CustomRoleSpatie::findOrFail($id);
+        $role->name = $request->name;
+        $role->guard_name = 'employee';
+        $role->save();
+
+        // Validate Request
+        $old_permission = array();
+        foreach($role->permissions as $permissions){
+            array_push($old_permission, $permissions->name);
+        }
+        $new_permission = $request->permissions;
+
+        // Check Action
+        $revoke = array_diff($old_permission, $new_permission);
+        foreach($revoke as $r){
+            $role->revokePermissionTo($r);
+        }
+        $assign = array_diff($new_permission, $old_permission);
+        foreach($assign as $a){
+            $role->givePermissionTo($a);
+        }
+
+        return redirect()->route('admin.role.index')->with([
+            'status'    => 'success',
+            'message'   => 'Role permission for '. $role->name .' successfully updated'
+        ]);
     }
 
     /**
@@ -80,6 +158,20 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role = CustomRoleSpatie::findOrFail($id);
+
+        // Check if Role assigned to users
+        if($role->employees()->exists()){
+            return response()->json([
+                'status'    => 'danger',
+                'message' => 'Failed to delete. Please remove role from assigned users'
+            ]);
+        }
+
+        $role->delete();
+        return response()->json([
+            'status'    => 'success',
+            'message' => 'Role permission successfully deleted'
+        ]);
     }
 }
