@@ -31,6 +31,7 @@
 | `http://localhost:8000/api`                  | `GET`                        |
 | `http://localhost:8000/api/home`             | `GET`                        |
 | `http://localhost:8000/api/[id]/show`        | `GET`                        |
+| `http://localhost:8000/api/maps`             | `GET`                        |
 
 
 ### Email and Passwords
