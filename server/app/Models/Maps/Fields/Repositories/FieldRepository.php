@@ -34,9 +34,9 @@ class FieldRepository implements FieldRepositoryInterface
      *
      * @return Collection
      */
-    public function listFields(string $order = 'id', string $sort = 'desc', array $columns = ['*']) : Collection
+    public function listFields(string $order = 'id', string $sort = 'desc', $except = []) : Collection
     {
-        return $this->model->all($columns, $order, $sort);
+        return $this->model->orderBy($order, $sort)->get()->except($except);
     }
 
     /**

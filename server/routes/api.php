@@ -22,4 +22,5 @@ Route::namespace('Api')->group(function () {
   Route::get('/', 'HomeApiController@index')->name('api.index');
   Route::get('/home', 'HomeApiController@home')->name('api.home');
   Route::get('/{id}/show', 'HomeApiController@show')->name('api.home.show');
+  Route::get('/maps', 'HomeApiController@maps')->name('api.maps');
 });
