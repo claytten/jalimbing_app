@@ -93,7 +93,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-instagram"></i></span>
                       </div>
-                      <input class="form-control @error('instagram') is-invalid @enderror" placeholder="Your instagram" type="text" name="instagram" value="{{ $subcategory->instagram }}" id="instagram">
+                      <input class="form-control @error('instagram') is-invalid @enderror" placeholder="Your instagram (Ex. username)" type="text" name="instagram" value="{{ $subcategory->instagram }}" id="instagram">
                       @error('instagram')
                           <div class="invalid-feedback">
                               {{ $message }}
@@ -108,7 +108,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-whatsapp"></i></span>
                       </div>
-                      <input class="form-control @error('whatsapp') is-invalid @enderror" placeholder="Your Whatsapp" type="text" name="whatsapp" value="{{ $subcategory->whatsapp }}" id="whatsapp">
+                      <input class="form-control @error('whatsapp') is-invalid @enderror" placeholder="Your Whatsapp (Ex. 6285704152724)" type="text" name="whatsapp" value="{{ $subcategory->whatsapp }}" id="whatsapp">
                       @error('whatsapp')
                           <div class="invalid-feedback">
                               {{ $message }}
@@ -137,7 +137,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-youtube"></i></span>
                       </div>
-                      <input class="form-control @error('link_youtube') is-invalid @enderror" placeholder="Your Link Youtube" type="text" name="link_youtube" value="{{ $subcategory->link_youtube }}" id="link_youtube">
+                      <input class="form-control @error('link_youtube') is-invalid @enderror" placeholder="Your Link Youtube (Ex. 4wQ_gj4huXI)" type="text" name="link_youtube" value="{{ $subcategory->link_youtube }}" id="link_youtube">
                       @error('link_youtube')
                           <div class="invalid-feedback">
                               {{ $message }}
