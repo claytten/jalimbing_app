@@ -58,6 +58,7 @@ class HomeApiController extends Controller
                 'pattern'   => URL::to('/[id]/show'),
                 'example'   => URL::to('/2/show')
             ],
+            'maps'      => route('api.maps'),
             'source'    => 'https://github.com/claytten/jalimbing_app'            
         ]);
     }
