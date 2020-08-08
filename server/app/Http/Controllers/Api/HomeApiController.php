@@ -74,7 +74,7 @@ class HomeApiController extends Controller
         return response()->json([
             'url'           => route('api.home'),
             'example-image' => URL::to('/storage/[folder]/[image.jpg]'),
-            'data'          => $categories
+            'data'          => $categories->where('is_active', 1)
         ]);
     }
 
