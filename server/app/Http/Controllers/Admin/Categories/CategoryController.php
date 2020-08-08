@@ -106,9 +106,15 @@ class CategoryController extends Controller
             $youtube = null;
         }
 
+        if($request->has('image')) {
+            $image = $data['image'];
+        } else {
+            $image = null;
+        }
+
         $category = [
             "name" => $data['name'],
-            "image" => $data['image'],
+            "image" => $image,
             "is_active" => $status
         ];
         if ($request->hasFile('image') && $request->file('image') instanceof UploadedFile) {

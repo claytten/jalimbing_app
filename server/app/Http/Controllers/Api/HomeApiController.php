@@ -74,7 +74,7 @@ class HomeApiController extends Controller
         return response()->json([
             'url'           => route('api.home'),
             'example-image' => URL::to('/storage/[folder]/[image.jpg]'),
-            'data'          => $categories
+            'data'          => $categories->where('is_active', 1)
         ]);
     }
 
@@ -87,11 +87,17 @@ class HomeApiController extends Controller
     public function show($id)
     {
         $subcategory = $this->subcategoryRepo->findSubcategoryById($id);
+        $getcategory = array();
         $images = array();
-        if(!empty($subcategory->subCategoryImages())) {
+
+        if($subcategory->is_active == 1) {
+            $getcategory = $subcategory;
             
-            foreach($subcategory->subCategoryImages as $image) {
-                array_push($images, $image->image_link);
+            if(!empty($subcategory->subCategoryImages())) {
+                
+                foreach($subcategory->subCategoryImages as $image) {
+                    array_push($images, $image->image_link);
+                }
             }
         }
 
@@ -99,7 +105,7 @@ class HomeApiController extends Controller
             'url'           => URL::to('/'.$id.'/show'),
             'example-image' => URL::to('/storage/[folder]/[image.jpg]'),
             'data'          => [
-                'subcategory'   => $subcategory,
+                'subcategory'   => $getcategory,
                 'images'         => $images
             ]
         ]);

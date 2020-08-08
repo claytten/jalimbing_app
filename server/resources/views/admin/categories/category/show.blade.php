@@ -84,8 +84,8 @@
             </div>
             <div class="col-6">
               <h4 class="mb-0">
-                <a href="{{ $subcategory->instagram }}">Instagram</a> || 
-                <a href="{{ $subcategory->whatsapp }}">Whatsapp</a>
+                <a href="{{ $subcategory->instagram }}" target="_blank">Instagram</a> || 
+                <a href="{{ $subcategory->whatsapp }}" target=_blank>Whatsapp</a>
               </h4>
             </div>
           </div>
