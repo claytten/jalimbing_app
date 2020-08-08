@@ -16,12 +16,12 @@ class CategoriesTableSeeder extends Seeder
     {
         $categories = [
             [
-                "name"        => "Karawitan",
+                "name"        => "Dumsday",
                 "schedule"    => "Sunday Night",
-                "instagram"   => "www.google.com",
-                "whatsapp"    => "www.google.com",
-                "youtube"     => "www.youtube.com",
-                "description" => "wew",
+                "instagram"   => "zachking",
+                "whatsapp"    => "6285704152765",
+                "youtube"     => "baE0PtutLmY",
+                "description" => "this is dummy data",
                 "is_active"   => "1"
             ]
         ];

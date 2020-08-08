@@ -72,7 +72,9 @@
               <h3 class="mb-0">Link Youtube</h3>
             </div>
             <div class="col-6">
-              <h4 class="mb-0">{{ $subcategory->link_youtube}}</h4>
+              <h4 class="mb-0">
+                <a href="https://www.youtube.com/watch?v={{ $subcategory->link_youtube }}" target="_blank">Youtube</a>
+              </h4>
             </div>
           </div>
           <hr>
@@ -84,8 +86,7 @@
             </div>
             <div class="col-6">
               <h4 class="mb-0">
-                <a href="{{ $subcategory->instagram }}" target="_blank">Instagram</a> || 
-                <a href="{{ $subcategory->whatsapp }}" target=_blank>Whatsapp</a>
+                <a href="https://www.instagram.com/{{ $subcategory->instagram }}/" target="_blank">Instagram</a> || {{ $subcategory->whatsapp }}
               </h4>
             </div>
           </div>
@@ -107,7 +108,11 @@
               <h3 class="mb-0">Category Image</h3>
             </div>
             <div class="col-6" style="justify-content: center">
-              <img class="img-responsive" width="150px;" style="padding:.25rem;background:#eee;display:block;" src="{{ url('/storage'.'/'.$category->image) }}">
+              @if(!empty($category->image))
+                  <img class="img-responsive" width="150px;" style="padding:.25rem;background:#eee;display:block;" src="{{ url('/storage'.'/'.$category->image) }}">
+              @else
+                  <img class="img-responsive" width="150px;" style="padding:.25rem;background:#eee;display:block;">
+              @endif
             </div>
           </div>
         </div>
