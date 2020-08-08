@@ -1,0 +1,4 @@
+#Thu Aug 06 22:37:35 WIB 2020
+base.0=C\:\\Users\\rama_\\Documents\\Kuliah\\KKN\\FrontEnd\\JalimbingApp\\android\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
