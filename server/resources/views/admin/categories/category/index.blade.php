@@ -68,8 +68,8 @@
                         <td>{{ ucwords($item->name) }}</td>
                         <td>{{ $item->schedule }}</td>
                         <td>
-                            <a href="{{ $item->instagram }}" target="_blank">Instagram</a> || 
-                            <a href="{{ $item->whatsapp }}" target="_blank">Whatsapp</a>
+                            <a href="https://www.instagram.com/{{ $item->instagram }}/" target="_blank">Instagram</a> || 
+                            <a href="https://www.youtube.com/watch?v={{ $item->link_youtube }}" target="_blank">Youtube</a>
                         </td>
                         <td>{{ $item->is_active ?  'Active' : 'Inactive' }}</td>
                         <td>
