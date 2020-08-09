@@ -1,7 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
-const halfWidth = width / 2 - 25;
 
 export const portraitStyles = StyleSheet.create({
   container: {

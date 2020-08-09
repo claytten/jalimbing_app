@@ -77,6 +77,14 @@ export const portraitStyles = StyleSheet.create({
   },
   textTitle: {
     paddingBottom: 5,
+    fontSize: 18,
+    textAlign: 'justify',
+    fontWeight: 'bold',
+  },
+  textDesc: {
+    paddingBottom: 5,
+    fontSize: 15,
+    textAlign: 'justify',
   },
   textDaftarKategori: {
     fontSize: 20,
@@ -163,6 +171,14 @@ export const landscapeStyles = StyleSheet.create({
   },
   textTitle: {
     paddingBottom: 5,
+    fontSize: 18,
+    textAlign: 'justify',
+    fontWeight: 'bold',
+  },
+  textDesc: {
+    paddingBottom: 5,
+    fontSize: 15,
+    textAlign: 'justify',
   },
   textDaftarKategori: {
     fontSize: 20,

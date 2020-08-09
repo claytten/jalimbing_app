@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { portraitStyles, landscapeStyles } from './language-settings.style';
 import { LocalizationContext } from '../../services/localization/localization-context';
+import 'mobx-react-lite/batchingForReactNative';
+import rootStore from '../../model/root';
 
 const LanguageSetting = () => {
   const [screen, setScreen] = useState(Dimensions.get('window'));
@@ -14,6 +16,7 @@ const LanguageSetting = () => {
 
   const handleSetLanguage = async (language) => {
     setAppLanguage(language);
+    rootStore.language.changeLanguage(language);
   };
 
   const getOrientation = () => {

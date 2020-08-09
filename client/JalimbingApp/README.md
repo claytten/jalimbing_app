@@ -22,7 +22,18 @@ git clone *this repository* <newFolderName>
 npm install
 ```
 
-- run into your device
+- rename env-example.js in directory app/config/env-example.js into env.js
+
+- Then put your MAPS API, YOUTUBE API KEY into env.js
+
+- Then put your MAPS API KEY into AndroidManifest.xml file
+
+- Open the android project with Android Studio
+
+- Connect your device into pc/laptop
+
+- Finally, in your code editor terminal type this command
 ```
 npx react-native run-android
 ```
+to run the app in your device

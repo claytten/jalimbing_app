@@ -40,6 +40,9 @@ const MapsData = t
     addMapsData(data) {
       self.items.push(data);
     },
+    deleteMapsData() {
+      self.items = [];
+    },
   }));
 
 export default MapsData;

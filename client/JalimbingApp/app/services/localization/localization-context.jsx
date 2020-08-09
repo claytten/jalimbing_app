@@ -4,6 +4,9 @@ import * as RNLocalize from 'react-native-localize';
 import translations from './translations';
 import { APP_LANGUAGE, DEFAULT_LANGUAGE } from '../../config/constants';
 
+import 'mobx-react-lite/batchingForReactNative';
+import rootStore from '../../model/root';
+
 export const LocalizationContext = createContext({
   translations,
   setAppLanguage: () => {},
@@ -17,6 +20,7 @@ export const LocalizationProvider = ({ children }) => {
   const setLanguage = (language) => {
     translations.setLanguage(language);
     setAppLanguage(language);
+    rootStore.language.changeLanguage(language);
     AsyncStorage.setItem(APP_LANGUAGE, language);
   };
 

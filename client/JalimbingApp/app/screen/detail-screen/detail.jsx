@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useRef, useContext, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   PixelRatio,
   Linking,
+  RefreshControl,
 } from 'react-native';
 import YouTube from 'react-native-youtube';
 import { observer } from 'mobx-react-lite';
@@ -30,6 +31,7 @@ const Detail = observer(({ route }) => {
   const { translations } = useContext(LocalizationContext);
   const [popupImageUri, setPopupImageUri] = useState(IMAGE_URL);
   const [visible, setvisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [status, setStatus] = useState(null);
   const [quality, setQuality] = useState(null);
@@ -45,13 +47,20 @@ const Detail = observer(({ route }) => {
 
   const getDetailData = () => {
     Resources.getDetailData(id)
-      .then((res) => {
+      .then((res) => { 
         rootStore.detailData.addDetailData(res.data);
+        setRefreshing(false);
       })
       .catch((err) => {
         console.log(err);
+        setRefreshing(false);
       });
   };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getDetailData();
+  }, []);
 
   const getOrientation = () => {
     if (screen.width > screen.height) {
@@ -100,7 +109,7 @@ const Detail = observer(({ route }) => {
 
   return (
     <SafeAreaView style={getStyle().container} onLayout={onLayout}>
-      <ScrollView>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         {rootStore.detailData.subcategory.sub_category_images.length > 0 && (
           <Image
             source={{ uri: IMAGE_URL + rootStore.detailData.subcategory.sub_category_images[0].image_link }}
@@ -110,8 +119,8 @@ const Detail = observer(({ route }) => {
 
         <View style={getStyle().view1}>
           <Text style={getStyle().textTitle}>{rootStore.detailData.subcategory.name}</Text>
-          <Text style={getStyle().textTitle}>{rootStore.detailData.subcategory.description}</Text>
-          <Text style={getStyle().textTitle}>Jadwal kegiatan: {rootStore.detailData.subcategory.schedule}</Text>
+          <Text style={getStyle().textDesc}>{rootStore.detailData.subcategory.description}</Text>
+          <Text style={getStyle().textDesc}>Jadwal kegiatan: {rootStore.detailData.subcategory.schedule}</Text>
         </View>
         <View style={getStyle().viewMenu}>
           <Text style={getStyle().textDaftarKategori}>{translations.DOCUMENTATION}</Text>
