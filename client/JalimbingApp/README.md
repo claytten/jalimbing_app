@@ -42,3 +42,6 @@ to run the app in your device
 ![Image of Eworkpalce](../Dokumentasi/ss1.png)>![Image of Eworkpalce](../Dokumentasi/ss2.png)
 ![Image of Eworkpalce](../Dokumentasi/ss3.png)>![Image of Eworkpalce](../Dokumentasi/ss6.png)
 ![Image of Eworkpalce](../Dokumentasi/ss4.png)>![Image of Eworkpalce](../Dokumentasi/ss5.png) <br/>
+
+## Author
+ramafebri
