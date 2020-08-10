@@ -22,7 +22,7 @@ class SubCategoriesTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('name');
-            $table->string('description');
+            $table->longText('description');
             $table->string('schedule');
             $table->string('link_youtube')->nullable();
             $table->string('instagram')->nullable();
