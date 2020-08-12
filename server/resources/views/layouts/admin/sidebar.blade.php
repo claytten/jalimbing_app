@@ -97,7 +97,7 @@
           <li class="nav-item">
             <a class="nav-link" href="https://github.com/claytten/jalimbing_app" target="_blank">
               <i class="ni ni-collection"></i>
-              <span class="nav-link-text">Claytten</span>
+              <span class="nav-link-text">KKN TEMATIK TIM II UNDIP 2020 || Claytten</span>
             </a>
           </li>
         </ul>
