@@ -11,6 +11,7 @@ import {
   PixelRatio,
   Linking,
   RefreshControl,
+  BackHandler,
 } from 'react-native';
 import YouTube from 'react-native-youtube';
 import { observer } from 'mobx-react-lite';
@@ -25,7 +26,7 @@ import Popup from '../../components/Popup';
 import { YOUTUBE_API, IMAGE_URL } from '../../config/env';
 import Instagram from '../../assets/svg/instagram.svg';
 
-const Detail = observer(({ route }) => {
+const Detail = observer(({ route, navigation }) => {
   const { id } = route.params;
   const [screen, setScreen] = useState(Dimensions.get('window'));
   const { translations } = useContext(LocalizationContext);
@@ -43,11 +44,16 @@ const Detail = observer(({ route }) => {
 
   useEffect(() => {
     getDetailData();
+    BackHandler.addEventListener('hardwareBackPress', onBack);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBack);
+    };
   }, []);
 
   const getDetailData = () => {
     Resources.getDetailData(id)
-      .then((res) => { 
+      .then((res) => {
         rootStore.detailData.addDetailData(res.data);
         setRefreshing(false);
       })
@@ -55,6 +61,11 @@ const Detail = observer(({ route }) => {
         console.log(err);
         setRefreshing(false);
       });
+  };
+
+  const onBack = () => {
+    navigation.goBack();
+    return true;
   };
 
   const onRefresh = useCallback(() => {

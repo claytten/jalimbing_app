@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, BackHandler } from 'react-native';
 import { portraitStyles, landscapeStyles } from './language-settings.style';
 import { LocalizationContext } from '../../services/localization/localization-context';
 import 'mobx-react-lite/batchingForReactNative';
 import rootStore from '../../model/root';
 
-const LanguageSetting = () => {
+const LanguageSetting = ({ navigation }) => {
   const [screen, setScreen] = useState(Dimensions.get('window'));
   const { translations, appLanguage, setAppLanguage } = useContext(LocalizationContext);
   const [selectedLanguage, setSelectedLanguage] = useState(appLanguage);
@@ -14,9 +14,22 @@ const LanguageSetting = () => {
     setSelectedLanguage(appLanguage);
   }, [appLanguage]);
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', onBack);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBack);
+    };
+  }, []);
+
   const handleSetLanguage = async (language) => {
     setAppLanguage(language);
     rootStore.language.changeLanguage(language);
+  };
+
+  const onBack = () => {
+    navigation.goBack();
+    return true;
   };
 
   const getOrientation = () => {
