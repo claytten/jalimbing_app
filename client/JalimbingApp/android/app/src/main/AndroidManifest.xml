@@ -18,7 +18,7 @@
         tools:targetApi="m">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value= "AIzaSyB4dMYw0-tlVWfJ6zN-u7tqLCwI-6k4xic"/>
+            android:value= "YOUR MAPS API"/>
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
       <activity
         android:name=".MainActivity"
