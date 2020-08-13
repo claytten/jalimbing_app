@@ -47,7 +47,7 @@ const Home = observer(({ navigation }) => {
       moment.locale('id');
       setDate(moment().format('LL'));
     } else {
-      moment.locale('EN');
+      moment.locale('en-sg');
       setDate(moment().format('LL'));
     }
   }, [languageChange]);
