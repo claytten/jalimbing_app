@@ -4,7 +4,7 @@ import { LocalizationContext } from '../services/localization/localization-conte
 import HomeIcon from '../assets/svg/HomeIcon.svg';
 import ProfileIcon from '../assets/svg/UserIcon.svg';
 import HomeScreen from '../screen/home-screen/home';
-import ProfileScreen from '../screen/profile-screen/profile';
+import EventScreen from '../screen/event-screen/event';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,10 +36,10 @@ function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="Event"
+        component={EventScreen}
         options={{
-          tabBarLabel: translations.PROFILE,
+          tabBarLabel: translations.EVENT,
           tabBarIcon: ({ color }) => <ProfileIcon fill={color} />,
         }}
       />

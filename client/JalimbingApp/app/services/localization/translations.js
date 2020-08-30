@@ -7,7 +7,7 @@ const translations = {
     DOCUMENTATION: 'Documentation',
     SOCIAL_MEDIA: 'Social Media',
     HOME: 'Home',
-    PROFILE: 'Profile',
+    EVENT: 'Event',
     LANGUAGE_SETTINGS: 'Language Settings',
   },
   ID: {
@@ -16,7 +16,7 @@ const translations = {
     DOCUMENTATION: 'Dokumentasi',
     SOCIAL_MEDIA: 'Media Sosial',
     HOME: 'Beranda',
-    PROFILE: 'Profil',
+    EVENT: 'Acara',
     LANGUAGE_SETTINGS: 'Pengaturan Bahasa',
   },
 };
